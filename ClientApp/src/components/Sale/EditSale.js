@@ -39,7 +39,7 @@ class EditSale extends Component {
             console.error('Error:', error.message);
         }
     }
-    openEditPopup = (saleId, customerName, productName, storeName, dateSold) => {
+    openEditPopup = (saleId, customerName, productName, storeName, dateSold, editingSale) => {
         this.setState({
             isPopupOpen: true,
             saleId,
@@ -47,17 +47,19 @@ class EditSale extends Component {
             productName,
             storeName,
             dateSold,
+            editingSale,
         });
     };
 
     closeEditPopup = () => {
         this.setState({
             isPopupOpen: false,
-            saleId: '',
-            customerName: '',
-            productName: '',
-            storeName: '',
-            dateSold: '',
+            saleId: null,
+            customerName: null,
+            productName: null,
+            storeName: null,
+            dateSold: null,
+            editingSale:null,
         });
     };
 
@@ -94,8 +96,8 @@ class EditSale extends Component {
             if (response.ok) {
                 console.log('Sale updated.');
                 this.props.populateSaleData();
-                this.closeEditPopup();
-
+                this.props.onCancel();
+                this.setState({ editingSale: null, isPopupOpen:false });
                 
             } else {
                 const errorData = await response.json();

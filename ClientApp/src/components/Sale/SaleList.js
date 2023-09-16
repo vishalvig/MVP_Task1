@@ -18,7 +18,7 @@ export class SaleList extends Component {
             editedDateSold: '',
             editingSale: null,
             error: null,
-          
+            isPopupOpen: false,
             customers: [],
             products: [],
             stores: [],
@@ -27,7 +27,7 @@ export class SaleList extends Component {
             showDeletePopup: false, 
             saleToDeleteId: null,
         };
-        this.handleSave = this.handleSave.bind(this);
+       // this.handleSave = this.handleSave.bind(this);
     }
 
 
@@ -49,13 +49,12 @@ export class SaleList extends Component {
 
     componentDidMount() {
         this.populateSaleData();
-        window.addEventListener('message', this.handlePopupMessage);
+       // window.addEventListener('message', this.handlePopupMessage);
     }
     handlePopupMessage = (event) => {
         const { type, saleId: eventId, customerName, productName, storeName, dateSold } = event.data;
         if (type === 'createSale') {
             const newSale = {
-                // id: this.state.sales.length + 1,
                 customerName,
                 productName,
                 storeName,
@@ -85,18 +84,18 @@ export class SaleList extends Component {
 
     
 
-    handleEdit = (saleId, customerName, productName, storeName, dateSold) => {
+    //handleEdit = (saleId, customerName, productName, storeName, dateSold) => {
 
-        this.setState({
-            editingSaleId: saleId,
-            editedCustomerName: customerName,
-            editedProductName: productName,
-            editedStoreName: storeName,
-            editedDateSold: dateSold,
+    //    this.setState({
+    //        editingSaleId: saleId,
+    //        editedCustomerName: customerName,
+    //        editedProductName: productName,
+    //        editedStoreName: storeName,
+    //        editedDateSold: dateSold,
 
-        });
+    //    });
 
-    };
+    //};
 
 
 
@@ -194,7 +193,7 @@ export class SaleList extends Component {
                     <p>Sales List</p>
                    
                     <CreateSale sale={{ customers, products, stores }} handleCreateSale={this.handleCreateSale} onSaleCreated={this.handleSaleCreated} />
-                    <EditSale ref={(editSale) => (this.editSale = editSale)} refreshSaleData={this.handleSaleCreated} />
+                    {/*<EditSale ref={(editSale) => (this.editSale = editSale)} refreshSaleData={this.handleSaleCreated} />*/}
                     <table className="ui celled table" aria-labelledby="tabellabel">
                         <thead>
                             <tr>
@@ -253,7 +252,8 @@ export class SaleList extends Component {
                             productName={editingSale.productName}
                             storeName={editingSale.storeName}
                             dateSold={editingSale.dateSold}
-                            onCancel={() => this.handleCancelEdit()}
+                            //onCancel={() => this.handleCancelEdit()}
+                            onCancel={() => this.setState({ isPopupOpen: false })}
                             populateSaleData={() => this.populateSaleData()}
                             onSave={(updatedSaleData) => this.handleSave(updatedSaleData)}
                         

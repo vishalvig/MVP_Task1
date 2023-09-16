@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import CreateCustomer from './CreateCustomer';
 import EditCustomer from './EditCustomer';
 import DeleteSalePopup from '../DeleteSalePopup';
-//import { generateDeleteWindowContent } from './DeleteCustomer';
+
 
 export class CustomerList extends Component {
     
@@ -12,12 +12,10 @@ export class CustomerList extends Component {
         this.state = {
             customers: [], loading: true,
             editingCustomerId: null,
-            //editedName: '',
-            //editedAddress: '',
             error: null,
             showCreatePopup: false,
             showEditWindow: false,
-            showDeletePopup: false, // State to control the delete confirmation popup
+            showDeletePopup: false, 
             customerToDeleteId: null,
             isEditPopupVisible: false,
         };
@@ -111,10 +109,6 @@ export class CustomerList extends Component {
             <div>
                 <h1 id="tabelLabel" >Customer List</h1>
                 <CreateCustomer customer={{ customers }} handleCreateCustomer={this.handleCreateCustomer} onProductCreated={this.handleCustomerCreated} />
-               
-                {/*<button className="ui button" onClick={this.openCreatePopup}>*/}
-                {/*    Create New Customer*/}
-                {/*</button>*/}
                 {contents}
                 {error && (
                     <div className="error-popup">
@@ -142,7 +136,7 @@ export class CustomerList extends Component {
         );
     }
     handleCustomerCreated = () => {
-        // Add logic here to refresh the sales data, e.g., by calling populateSaleData
+        
         this.populateCustomerData();
     };
     handlePopupMessage = (event) => {
@@ -166,20 +160,20 @@ export class CustomerList extends Component {
 
     handleEdit = ({ customerId, name: customerName, address: customerAddress }) => {
         console.log("HandleEDIT", customerId, customerName, customerAddress)
-        // Store the customer ID, name, and address in the component state
+        
         this.setState({
             editingCustomerId: customerId,
             editedName: customerName,
             editedAddress: customerAddress,
 
         }, () => {
-            // Call handleSave once the state is updated
+      
             this.handleSave();
         });
     };
 
     handleSave = async (editingCustomerId, editedName, editedAddress) => {
-        //const { editingCustomerId, editedName, editedAddress } = this.state;
+      
         console.log(editingCustomerId, editedName, editedAddress)
 
         // Make an API request to update the customer with the edited values
@@ -211,39 +205,7 @@ export class CustomerList extends Component {
             this.setState({ error: error.message });
         }
     };
-
-  
-
-    //handleCreateCustomer = async (name, address) => {
-    //    // Make an API request to create the customer
-    //    try {
-    //        const response = await fetch('api/customers', {
-    //            method: 'POST',
-    //            headers: {
-    //                'Content-Type': 'application/json',
-    //            },
-    //            body: JSON.stringify({
-    //                name,
-    //                address,
-    //            }),
-    //        });
-
-    //        if (response.ok) {
-    //            console.log('New customer created.');
-    //            this.setState({ showCreatePopup: false });
-    //            this.populateCustomerData();
-    //        } else {
-    //            const errorData = await response.json();
-    //            const errorMessage = errorData.message || 'Failed to create customer.';
-    //            throw new Error(errorMessage);
-    //        }
-    //    } catch (error) {
-    //        console.error('Error:', error.message);
-    //        this.setState({ error: error.message });
-    //    }
-    //};
-
-
+        
     async fetchSales() {
         console.log('Called fetchSales method');
         const response = await fetch('api/sales');
@@ -260,24 +222,7 @@ export class CustomerList extends Component {
         });
 
     };
-
-        //handleDelete = async (customerId) => {
-        //    // Open a new window
-        //    const deleteWindow = window.open('', '_blank', 'width=400,height=300');
-
-        //    // Generate the content for the new window using the separate function
-        //    const deleteWindowContent = generateDeleteWindowContent(customerId);
-
-        //    // Write the content of the new window
-        //    deleteWindow.document.write(deleteWindowContent);
-
-        //    // Global function to handle confirmation of deletion in the main window
-        //    window.confirmDeleteCustomer = (customerId) => {
-        //        this.handleConfirmDelete(customerId);
-        //        window.close();
-        //    };
-        //};
-    
+                
     closeDeletePopup = () => {
         this.setState({ showDeletePopup: false, customerToDeleteId: null });
     };
@@ -294,7 +239,6 @@ export class CustomerList extends Component {
                     "Failed to delete this customer. The customer may have existing sale records.",
                 );
 
-                // Open a new window with the popup content
                 const popupWindow = window.open('', '_blank', 'width=400,height=200');
 
                 popupWindow.document.write(`

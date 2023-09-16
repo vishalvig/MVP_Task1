@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import CreateStore from './CreateStore';
 import EditStore from './EditStore';
 import DeleteSalePopup from '../DeleteSalePopup';
-//import { generateDeleteWindowContent } from './DeleteStore';
+
 
 export class StoreList extends Component {
 
@@ -13,12 +13,11 @@ export class StoreList extends Component {
         this.state = {
             stores: [], loading: true,
             editingStoreId: null,
-            //editedName: '',
-            //editedAddress: '',
+           
             error: null,
             showCreatePopup: false,
             showEditWindow: false,
-             showDeletePopup: false, // State to control the delete confirmation popup
+             showDeletePopup: false, 
             storeToDeleteId: null,
             isEditPopupVisible: false,
         };
@@ -97,7 +96,7 @@ export class StoreList extends Component {
     }
 
     render() {
-        const { loading, stores, editingStoreId, error, showEditWindow, editedName, editedAddress, isEditPopupVisible } = this.state;
+        const { loading, stores, editingStoreId, error, editedName, editedAddress, isEditPopupVisible } = this.state;
         let contents = loading ? (
             <p>
                 <em>Loading...</em>
@@ -110,9 +109,7 @@ export class StoreList extends Component {
             <div>
                 <h1 id="tabelLabel" >Store List</h1>
                 <CreateStore store={{ stores }} handleCreateStore={this.handleCreateStore} onProductCreated={this.handleStoreCreated} />
-                {/*<button className="ui button" onClick={this.openCreatePopup}>*/}
-                {/*    Create New Store*/}
-                {/*</button>*/}
+                
                 {contents}
                 {error && (
                     <div className="error-popup">
@@ -140,7 +137,7 @@ export class StoreList extends Component {
         );
     }
     handleStoreCreated = () => {
-        // Add logic here to refresh the sales data, e.g., by calling populateSaleData
+       
         this.populateStoreData();
     };
 
@@ -161,19 +158,19 @@ export class StoreList extends Component {
     };
 
     handleEdit = ({ storeId, name: storeName, address: storeAddress }) => {
-        // Store the store ID, name, and address in the component state
+       
         this.setState({
             editingStoreId: storeId,
             editedName: storeName,
             editedAddress: storeAddress,
         }, () => {
-            // Call handleSave once the state is updated
+            
             this.handleSave();
         });
     };
 
     handleSave = async (editingStoreId, editedName, editedAddress) => {
-       // const { editingStoreId, editedName, editedAddress } = this.state;
+      
         console.log(editedName);
         // Make an API request to update the store with the edited values
         try {
@@ -256,27 +253,9 @@ export class StoreList extends Component {
     closeDeletePopup = () => {
         this.setState({ showDeletePopup: false, storeToDeleteId: null });
     };
-
-    
-
-    //handleDelete = async (storeId) => {
-    //    // Open a new window
-    //    const deleteWindow = window.open('', '_blank', 'width=400,height=300');
-
-    //    // Generate the content for the new window using the separate function
-    //    const deleteWindowContent = generateDeleteWindowContent(storeId);
-
-    //    // Write the content of the new window
-    //    deleteWindow.document.write(deleteWindowContent);
-
-    //    // Global function to handle confirmation of deletion in the main window
-    //    window.confirmDeleteStore = (storeId) => {
-    //        this.handleConfirmDelete(storeId);
-    //        window.close();
-    //    };
-    //};
-
-    handleConfirmDelete = async () => {
+     
+     
+        handleConfirmDelete = async () => {
         const { storeToDeleteId } = this.state;
         const dataExist = this.state.sales.find(
             (sales) =>

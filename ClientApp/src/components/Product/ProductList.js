@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import CreateProduct from './CreateProduct';
 import EditProduct from './EditProduct';
 import DeleteSalePopup from '../DeleteSalePopup';
-//import { generateDeleteWindowContent } from './DeleteProduct';
+
 
 export class ProductList extends Component {
 
@@ -13,12 +13,9 @@ export class ProductList extends Component {
         this.state = {
             products: [], loading: true,
             editingProductId: null,
-            //editedName: '',
-            //editedPrice: '',
             error: null,
             showCreatePopup: false,
-            
-            showDeletePopup: false, // State to control the delete confirmation popup
+            showDeletePopup: false, 
             productToDeleteId: null,
             sales: [],
             isEditPopupVisible: false,
@@ -56,9 +53,6 @@ export class ProductList extends Component {
             editedName: productName,
             editedPrice: productPrice,
         });
-        //const editProduct = new EditProduct();
-        //editProduct.openEditWindow2(productId, productName, productPrice);
-
         console.log(productId, productName, productPrice)
 
     };
@@ -126,9 +120,7 @@ export class ProductList extends Component {
             <div>
                 <h1 id="tabelLabel" >Product List</h1>
                 <CreateProduct product={{ products }} handleCreateProduct={this.handleCreateProduct} onProductCreated={this.handleProductCreated} />
-                {/*<button className="ui button" onClick={this.openCreatePopup}>*/}
-                {/*    Create New Product*/}
-                {/*</button>*/}
+                
                 {contents}
                 {error && (
                     <div className="error-popup">
@@ -152,14 +144,7 @@ export class ProductList extends Component {
                         onCancel={this.closeEditPopup}
                     />
                 )}
-                {/*{showEditWindow && editingProductId && (*/}
-                {/*    <EditProduct*/}
-                {/*        editingProductId={editingProductId}*/}
-                {/*        editedName={editedName}*/}
-                {/*        editedPrice={editedPrice}*/}
-                {/*    //onSave{this.handleSave}*/}
-                {/*    />*/}
-                
+                              
             </div>
         );
     }
@@ -182,24 +167,23 @@ export class ProductList extends Component {
     };
 
     handleEdit = ({ productId, name: productName, price: productPrice }) => {
-        // Store the product ID, name, and price in the component state
+        
         this.setState({
             editingProductId: productId,
             editedName: productName,
             editedPrice: productPrice,
         }, () => {
-            // Call handleSave once the state is updated
+         
             this.handleSave();
         });
     };
 
     handleSave = async (editingProductId, editedName, editedPrice) => {
 
-       // const { editingProductId, editedName, editedPrice } = this.state;
 
         console.log(editedName);
         console.log(editedPrice);
-        // Make an API request to update the product with the edited values
+      
         try {
             const response = await fetch(`api/products/${editingProductId}`, {
                 method: 'PUT',
@@ -217,7 +201,7 @@ export class ProductList extends Component {
                 console.log(`Product with ID ${editingProductId} updated.`);
                 this.populateProductData();
                 this.closeEditPopup();
-                // You may want to update the state or refresh the product list
+               
             } else {
                 const errorData = await response.json();
                 const errorMessage = errorData.message || 'Failed to update product.';
@@ -228,42 +212,14 @@ export class ProductList extends Component {
             this.setState({ error: error.message });
         }
 
-        //    this.handleCancelEdit(); // Call handleCancelEdit instead of recursively calling handleSave
+
     };
 
     handleProductCreated = () => {
-        // Add logic here to refresh the sales data, e.g., by calling populateSaleData
+        
         this.populateProductData();
     };
-    //handleCreateProduct = async (name, price) => {
-
-    //    // Make an API request to create the product
-    //    try {
-    //        const response = await fetch('api/products', {
-    //            method: 'POST',
-    //            headers: {
-    //                'Content-Type': 'application/json',
-    //            },
-    //            body: JSON.stringify({
-    //                name,
-    //                price,
-    //            }),
-    //        });
-
-    //        if (response.ok) {
-    //            console.log('New product created.');
-    //            this.setState({ showCreatePopup: false });
-    //            this.populateProductData();
-    //        } else {
-    //            const errorData = await response.json();
-    //            const errorMessage = errorData.message || 'Failed to create product.';
-    //            throw new Error(errorMessage);
-    //        }
-    //    } catch (error) {
-    //        console.error('Error:', error.message);
-    //        this.setState({ error: error.message });
-    //    }
-    //};
+    
 
     async fetchSales() {
         console.log('Called fetchSales method');
@@ -285,23 +241,7 @@ export class ProductList extends Component {
         this.setState({ showDeletePopup: false, productToDeleteId: null });
     };
 
-    //handleDelete = async (productId) => {
-    //    // Open a new window
-    //    const deleteWindow = window.open('', '_blank', 'width=400,height=300');
-
-    //    // Generate the content for the new window using the separate function
-    //    const deleteWindowContent = generateDeleteWindowContent(productId);
-
-    //    // Write the content of the new window
-    //    deleteWindow.document.write(deleteWindowContent);
-
-    //    // Global function to handle confirmation of deletion in the main window
-    //    window.confirmDeleteProduct = (productId) => {
-    //        this.handleConfirmDelete(productId);
-    //        window.close();
-    //    };
-    //};
-
+    
 
     handleConfirmDelete = async (saleId, productId) => {
         //console.log(this.state.sale.ProductId);
@@ -332,7 +272,7 @@ export class ProductList extends Component {
             popupWindow.document.close();
             return {};
         }
-        // Make an API request to delete the product
+       
         try {
             console.log(productId);
             const response = await fetch(`api/products/${productId}`, {

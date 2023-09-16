@@ -20,7 +20,7 @@ class CreateStore extends Component {
     };
 
     handleInputChange = (event) => {
-        // Handle input field changes and update state accordingly
+     
         const { id, value } = event.target;
         console.log(`Updating state for ${id}: ${value}`);
         this.setState({ [id]: value });
@@ -30,7 +30,7 @@ class CreateStore extends Component {
         const { storeName, storeAddress } = this.state;
         if (!storeName || !storeAddress) {
             console.error('Store Name and Store Address are required.');
-            return; // Exit the function without making the API request
+            return; 
         }
         const storeData = {
 
@@ -57,17 +57,17 @@ class CreateStore extends Component {
                 const newStore = await response.json();
                 const updatedStore = [...this.state.stores, newStore];
                 this.setState({
-                    stores: updatedStore, // Assuming you have a "sales" state variable
+                    stores: updatedStore, 
 
                     storeName: '',
                     storeAddress: '',
                 }, () => {
-                    // Callback function is called after state is updated
-                    this.props.onProductCreated(); // Ensure this is correctly defined in the parent
+                    
+                    this.props.onProductCreated(); 
                 }
                 );
 
-                // You can add a callback to update data in the parent component
+                
             } else {
                 const errorData = await response.json();
                 const errorMessage = errorData.message || 'Failed to create Customer.';
@@ -126,83 +126,3 @@ class CreateStore extends Component {
 
 export default CreateStore;
 
-//export class CreateStore extends Component {
-//    componentDidMount() {
-//        window.addEventListener('message', this.handlePopupMessage);
-//    }
-
-//    componentWillUnmount() {
-//        window.removeEventListener('message', this.handlePopupMessage);
-//    }
-
-//    openCreatePopup = () => {
-//        const createPopupWindow = window.open('', '_blank', 'width=400,height=300');
-
-//        createPopupWindow.document.write(`
-//      <html>
-//        <head>
-//          <title>Create New Store</title>
-//          <style>
-//            ${`
-//              /* Additional custom styles for the create popup window */
-//              body {
-//                font-family: 'Segoe UI', sans-serif;
-//                background-color: #f9f9f9;
-//                padding: 20px;
-//              }
-              
-//              h2 {
-//                font-size: 24px;
-//                margin-bottom: 20px;
-//              }
-              
-//              .form-container {
-//                background-color: #fff;
-//                border: 1px solid #ddd;
-//                padding: 20px;
-//              }
-              
-//              .form-container input {
-//                width: 100%;
-//                padding: 10px;
-//                margin-bottom: 10px;
-//              }
-              
-//              .form-container button {
-//                margin-right: 10px;
-//              }
-//            `}
-//          </style>
-//        </head>
-//        <body>
-//          <div class="form-container">
-//            <h2>Create New Store</h2>
-//            <input type="text" id="storeName" placeholder="Store Name" />
-//            <input type="text" id="storeAddress" placeholder="Store Address" />
-//            <button id="createButton">Create</button>
-//            <button onclick="window.close()">Cancel</button>
-//            <script>
-//              // Function to handle creating a new store in the main window and close the create popup window
-//              function handleCreateStore() {
-//                const storeName = document.getElementById('storeName').value;
-//                const storeAddress = document.getElementById('storeAddress').value;
-//                window.opener.postMessage(
-//                  { type: 'createStore', name: storeName, address: storeAddress },
-//                  window.origin
-//                );
-//                window.close();
-//              }
-
-//              document.getElementById('createButton').addEventListener('click', handleCreateStore);
-//            </script>
-//          </div>
-//        </body>
-//      </html>
-//    `);
-//    };
-
-//    render() {
-//        return null;
-//    }
-//}
-//export default CreateStore;

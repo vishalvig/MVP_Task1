@@ -24,21 +24,13 @@ namespace OnboardingMVP.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Store>>> GetStores()
         {
-          if (_context.Stores == null)
-          {
-              return NotFound();
-          }
-            return await _context.Stores.ToListAsync();
+              return await _context.Stores.ToListAsync();
         }
 
         // GET: api/Stores/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Store>> GetStore(int id)
         {
-          if (_context.Stores == null)
-          {
-              return NotFound();
-          }
             var store = await _context.Stores.FindAsync(id);
 
             if (store == null)
@@ -99,11 +91,7 @@ namespace OnboardingMVP.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStore(int id)
         {
-            if (_context.Stores == null)
-            {
-                return NotFound();
-            }
-            var store = await _context.Stores.FindAsync(id);
+           var store = await _context.Stores.FindAsync(id);
             if (store == null)
             {
                 return NotFound();
